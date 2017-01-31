@@ -12,19 +12,18 @@ class Map extends React.Component {
 
         this.map = L.map(ReactDOM.findDOMNode(this), {
             boxZoom: false,
-            center: [47.2, -120.8],
             doubleClickZoom: false,
             dragging: false,
-            layers: [ L.tileLayer(tileUrl, { attribution: attribution })],
             scrollWheelZoom: false,
-            zoom: 7,
-            zoomControl: false
+            zoomControl: false,
+            layers: [ L.tileLayer(tileUrl, { attribution: attribution })]
         });
 
-        for (let station of stations) {
-            console.log(station);
-            L.marker([station.latitude, station.longitude]).addTo(this.map);
-        }
+        this.stations = L.featureGroup(stations.map((station) => {
+            return L.marker([station.latitude, station.longitude], { title: station.name });
+        })).addTo(this.map);
+
+        this.map.fitBounds(this.stations.getBounds());
     }
     render() {
         return <div className="map" />
