@@ -22,16 +22,18 @@ class Map extends React.Component {
         const attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, ' +
             'Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
         let featureBounds = this.state.stations.getBounds();
+        let attributionControl = L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution);
         this.map = L.map('map', {
+            attributionControl: false,
             layers: [
-                L.tileLayer(tileUrl, { attribution: attribution }),
+                L.tileLayer(tileUrl),
                 this.state.stations,
                 this.state.stateBoundaries
             ],
             maxBounds: featureBounds,
             minZoom: 7,
             zoomControl: false
-        }).fitBounds(featureBounds);
+        }).fitBounds(featureBounds).addControl(attributionControl);
     }
 
     handleListItemClick(station) {
