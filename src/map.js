@@ -6,25 +6,33 @@ import './map.css';
 class Map extends React.Component {
     constructor() {
         super();
-        this.state = {
-            stations: require('./station.json').results.sort((a, b) => { return a.name.localeCompare(b.name); })
-        };
+        let data = require('./station.json').results.sort((a, b) => { return a.name.localeCompare(b.name); });
+        let stations = L.featureGroup(data.map((station) => {
+            return L.marker([station.latitude, station.longitude], { name: station.name }).bindPopup(station.name);
+        }));
+        this.state = { stations: stations };
     }
+
     componentDidMount() {
         const tileUrl = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
         const attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, ' +
             'Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-
-        let tiles = L.tileLayer(tileUrl, { attribution: attribution });
-        let features = L.featureGroup(this.state.stations.map((station) => {
-            return L.marker([station.latitude, station.longitude]).bindPopup(station.name);
-        }));
-
-        this.map = L.map('map', { layers: [ tiles, features ]}).fitBounds(features.getBounds());
+        let featureBounds = this.state.stations.getBounds();
+        this.map = L.map('map', {
+            layers: [
+                L.tileLayer(tileUrl, { attribution: attribution }),
+                this.state.stations
+            ],
+            maxBounds: featureBounds,
+            minZoom: 7,
+            zoomControl: false
+        }).fitBounds(featureBounds);
     }
+
     handleListItemClick(station) {
-        console.log(station);
+        station.openPopup();
     }
+
     render() {
         return (
             <div>
