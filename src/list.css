@@ -5,6 +5,14 @@
     height: 100%;
     overflow-y: scroll;
     padding-left: 20px;
+    z-index: 2;
+    background-color: #eee;
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.list:hover {
+    opacity: 1;
 }
 
 .list h3 {

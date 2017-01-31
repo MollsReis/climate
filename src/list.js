@@ -4,7 +4,9 @@ import './list.css'
 class List extends React.Component {
     renderItem(station) {
         return (
-            <li className="item" key={ station.id }>{ station.name }</li>
+            <li className="item" key={ station.id } onClick={ () => this.props.itemClick(station) }>
+                { station.name }
+            </li>
         );
     }
     render() {
@@ -12,7 +14,7 @@ class List extends React.Component {
             <div className="list">
                 <h3>WA NOAA Stations</h3>
                 <ul>
-                    { this.props.stations.map(this.renderItem) }
+                    { this.props.stations.map(this.renderItem.bind(this)) }
                 </ul>
             </div>
         );
