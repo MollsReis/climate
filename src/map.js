@@ -6,11 +6,15 @@ import './map.css';
 class Map extends React.Component {
     constructor() {
         super();
-        let data = require('./station.json').results.sort((a, b) => { return a.name.localeCompare(b.name); });
-        let stations = L.featureGroup(data.map((station) => {
+        let stationsList = require('./stations.json').results.sort((a, b) => { return a.name.localeCompare(b.name); });
+        let statesGeoJSON = require('./states.json');
+        let stations = L.featureGroup(stationsList.map((station) => {
             return L.marker([station.latitude, station.longitude], { name: station.name }).bindPopup(station.name);
         }));
-        this.state = { stations: stations };
+        let stateBoundaries = L.geoJson(statesGeoJSON, {
+            filter: (feature) => { return feature.properties.NAME === 'Washington'; }
+        });
+        this.state = { stations: stations, stateBoundaries: stateBoundaries };
     }
 
     componentDidMount() {
@@ -21,7 +25,8 @@ class Map extends React.Component {
         this.map = L.map('map', {
             layers: [
                 L.tileLayer(tileUrl, { attribution: attribution }),
-                this.state.stations
+                this.state.stations,
+                this.state.stateBoundaries
             ],
             maxBounds: featureBounds,
             minZoom: 7,
@@ -30,7 +35,7 @@ class Map extends React.Component {
     }
 
     handleListItemClick(station) {
-        station.openPopup();
+        station.togglePopup();
     }
 
     render() {
