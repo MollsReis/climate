@@ -37,8 +37,8 @@ class Map extends React.Component {
             attributionControl: false,
             layers: [
                 L.tileLayer(tileUrl),
-                this.state.stations,
-                this.state.stateBoundaries
+                this.state.stateBoundaries,
+                this.state.stations
             ],
             maxBounds: bounds,
             minZoom: 7,
