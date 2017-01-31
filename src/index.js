@@ -4,6 +4,6 @@ import Map from './map'
 import './index.css';
 
 ReactDOM.render(
-    <Map />,
+    <Map state="oregon" />,
     document.getElementById('root')
 );

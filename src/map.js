@@ -4,10 +4,11 @@ import List from './list'
 import './map.css';
 
 class Map extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
-        let stationsList = require('./stations.json').results.sort((a, b) => { return a.name.localeCompare(b.name); });
-        let statesGeoJSON = require('./states.json');
+        let stationsList = require('./data/stations/' + props.state + '.json').results
+            .sort((a, b) => { return a.name.localeCompare(b.name); });
+        let statesGeoJSON = require('./data/states.json');
         let stations = L.featureGroup(stationsList.map((station) => {
             return L.circleMarker([station.latitude, station.longitude], {
                 name: station.name,
@@ -22,7 +23,7 @@ class Map extends React.Component {
         }));
         let stateBoundaries = L.geoJson(statesGeoJSON, {
             fill: false,
-            filter: (feature) => { return feature.properties.NAME === 'Washington'; }
+            filter: (feature) => { return feature.properties.NAME.toLowerCase() === props.state; }
         });
         this.state = { stations: stations, stateBoundaries: stateBoundaries };
     }
