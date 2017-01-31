@@ -1,0 +1,21 @@
+.list {
+    position: absolute;
+    left: 80%;
+    width: calc(20% - 20px);
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 20px;
+}
+
+.list h3 {
+    margin: 10px 0;
+    font-size: 2em;
+    font-weight: normal;
+}
+
+.list ul li.item {
+    font-size: 1.4em;
+    list-style: none;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
