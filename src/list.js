@@ -2,10 +2,11 @@ import React from 'react'
 import './list.css'
 
 class List extends React.Component {
-    renderItem(station) {
+    renderItem(data, i) {
+        let state = data[0], stations = data[1];
         return (
-            <li className="item" key={ station._leaflet_id } onClick={ () => this.props.itemClick(station) }>
-                { station.options.name }
+            <li className="item" key={ state + i } onClick={ () => this.props.itemClick(state) }>
+                { state } ({ stations.getLayers().length } stations)
             </li>
         );
     }
@@ -13,9 +14,9 @@ class List extends React.Component {
     render() {
         return (
             <div className="list">
-                <h3>WA NOAA Stations</h3>
+                <h3>States // Stations</h3>
                 <ul>
-                    { this.props.stations.getLayers().map(this.renderItem.bind(this)) }
+                    { Array.from(this.props.stations.entries()).map(this.renderItem.bind(this)) }
                 </ul>
             </div>
         );
