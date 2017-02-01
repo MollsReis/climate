@@ -21,7 +21,10 @@ class ClimateMap extends React.Component {
             })));
             return stations;
         }, new Map());
-        this.stateBoundaries = L.geoJson(require('./data/states.json'), { fill: false });
+        this.stateBoundaries = L.geoJson(require('./data/states.json'), {
+            fill: false,
+            filter: (state) => state.properties.NAME !== 'Puerto Rico'
+        });
     }
 
     componentDidMount() {
