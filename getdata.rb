@@ -6,11 +6,11 @@ puts 'grabbing states'
 states = api['/locations?locationcategoryid=ST&sortfield=name&limit=52'].get
 data = JSON.parse(states.body)['results'].map do |state|
   puts 'grabbing stations for ' + state['name']
-  stations = api['/stations?locationid=FIPS:41&datasetid=GSOM&datatypeid=TAVG&enddate=1900-01-01&limit=1000'].get
+  stations = api["/stations?locationid=#{state['id']}&datasetid=GSOM&datatypeid=TAVG&enddate=1900-01-01&limit=1000"].get
   {
       id: state['id'],
       name: state['name'],
-      stations: JSON.parse(stations)['results'].map do |station|
+      stations: (JSON.parse(stations)['results'] || []).map do |station|
         {
             id: station['id'],
             name: station['name'],
@@ -21,5 +21,5 @@ data = JSON.parse(states.body)['results'].map do |state|
   }
 end
 puts 'writing stations.json'
-File.write('stations.json', data.to_json)
+File.write('./src/data/stations.json', data.to_json)
 puts 'all done!'
