@@ -39,7 +39,7 @@ class ClimateMap extends React.Component {
                 this.stateBoundaries,
                 ...this.stations.values()
             ],
-            zoomControl: false,
+            minZoom: 3,
             zoom: 5
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution));
     }
