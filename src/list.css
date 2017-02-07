@@ -33,7 +33,7 @@
     overflow-y: scroll;
 }
 
-.list ul li.item {
+.list ul li.region {
     font-size: 1.4em;
     list-style: none;
     padding: 0.5em 0;
@@ -41,6 +41,15 @@
     cursor: pointer;
 }
 
-.list ul li.item:last-of-type {
+.list ul li.region:last-of-type {
     border-bottom: none;
+}
+
+.list ul li.region ul {
+    margin-top: 0.5em;
+}
+
+.list ul li.region ul li.station {
+    padding-left: 1em;
+    margin-bottom: 0.5em;
 }

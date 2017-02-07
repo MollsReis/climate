@@ -7,17 +7,37 @@ class List extends React.Component {
         this.state = { show: false };
     }
 
-    renderItem(data, i) {
-        let state = data[0], stations = data[1];
+    toggleList() {
+        this.setState((lastState) => { return { show: !lastState.show }});
+    }
+
+    stationClick(station, e) {
+        e.stopPropagation();
+        this.props.stationClick(station)
+    }
+
+    regionClick(region) {
+        this.props.regionClick(region);
+    }
+
+    renderStationItem(station, i) {
         return (
-            <li className="item" key={ state + i } onClick={ () => this.props.itemClick(state) }>
-                { state } ({ stations.getLayers().length } stations)
+            <li className="station" key={ station + i } onClick={ this.stationClick.bind(this, station)}>
+                { station.options.name }
             </li>
         );
     }
 
-    toggleList() {
-        this.setState((lastState) => { return { show: !lastState.show }});
+    renderRegionItem(data, i) {
+        let state = data[0], stations = data[1];
+        return (
+            <li className="region" key={ state + i } onClick={ this.regionClick.bind(this, state) }>
+                { state } ({ stations.getLayers().length } stations)
+                <ul>
+                    { stations.getLayers().map(this.renderStationItem.bind(this)) }
+                </ul>
+            </li>
+        );
     }
 
     render() {
@@ -26,7 +46,7 @@ class List extends React.Component {
                 <h3 onClick={ this.toggleList.bind(this) }>States // Stations</h3>
                 <div className="scroll">
                     <ul>
-                        { Array.from(this.props.stations.entries()).map(this.renderItem.bind(this)) }
+                        { Array.from(this.props.stations.entries()).map(this.renderRegionItem.bind(this)) }
                     </ul>
                 </div>
             </div>

@@ -44,16 +44,21 @@ class ClimateMap extends React.Component {
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution));
     }
 
-    handleListItemClick(station) {
-        //TODO rewire this
-        // station.togglePopup();
+    regionClick(region) {
+        console.log(region);
+    }
+
+    stationClick(station) {
+        console.log(station);
     }
 
     render() {
         return (
             <div>
                 <div id="climate-map" className="climate-map" />
-                <List stations={ this.stations } itemClick={ this.handleListItemClick.bind(this) } />
+                <List stations={ this.stations }
+                      stationClick={ this.stationClick.bind(this) }
+                      regionClick={ this.regionClick.bind(this) } />
             </div>
         );
     }
