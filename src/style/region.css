@@ -2,16 +2,10 @@ div.regions div.region {
     position: relative;
     font-size: 1.4em;
     list-style: none;
-    padding: 0.5em 0;
+    padding-top: 0.5em;
     border-bottom: 1px solid #333;
     cursor: pointer;
-    overflow: hidden;
-    height: 1em;
-    transition: 0.5s height cubic-bezier(0, 1, 0.5, 1);
-}
-
-div.regions div.region.show {
-    height: auto;
+    user-select: none;
 }
 
 div.regions div.region:last-of-type {
@@ -19,5 +13,15 @@ div.regions div.region:last-of-type {
 }
 
 div.regions div.region div.stations {
-    margin-top: 0.5em;
+    height: 0;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.25s;
+}
+
+div.regions div.region.show div.stations {
+    height: auto;
+    opacity: 1;
+    transform: scaleY(1);
 }

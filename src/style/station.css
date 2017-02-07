@@ -1,6 +1,7 @@
 div.station {
     padding-left: 1em;
-    margin-bottom: 0.5em;
+    margin: 0.5em 0;
+    user-select: none;
 }
 
 div.station:last-of-type {
