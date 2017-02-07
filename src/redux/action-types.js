@@ -1,0 +1,2 @@
+export const SELECT_REGION = 'SELECT_REGION';
+export const SELECT_STATION = 'SELECT_STATION';
