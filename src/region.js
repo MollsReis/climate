@@ -1,5 +1,6 @@
 import React from 'react'
 import Station from './station.js'
+import store from './store.js'
 import './style/region.css'
 
 class Region extends React.Component {
@@ -11,7 +12,7 @@ class Region extends React.Component {
     regionClick(region, e) {
         e.stopPropagation();
         this.setState((lastState) => { return { show: !lastState.show }; });
-        //TODO redux action select region
+        store.dispatch({ type: 'SELECT_REGION', region: region });
     }
 
     renderStation(station, i) {

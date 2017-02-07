@@ -3,7 +3,3 @@ div.station {
     margin: 0.5em 0;
     user-select: none;
 }
-
-div.station:last-of-type {
-    margin-bottom: 0;
-}

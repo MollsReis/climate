@@ -1,11 +1,13 @@
 import React from 'react';
 import L from 'leaflet';
 import List from './list'
+import store from './store.js'
 import './style/climate-map.css';
 
 class ClimateMap extends React.Component {
     constructor(props) {
         super(props);
+        store.subscribe(this.handleStoreChange);
         this.stations = require('./data/stations.json').reduce((stations, state) => {
             stations.set(state.name, L.layerGroup(state.stations.map((station) => {
                 return L.circleMarker([station.lat, station.lng], {
@@ -42,6 +44,10 @@ class ClimateMap extends React.Component {
             minZoom: 3,
             zoom: 5
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution));
+    }
+
+    handleStoreChange() {
+        console.log(store.getState()); //TODO pan and zoom map for selection
     }
 
     render() {

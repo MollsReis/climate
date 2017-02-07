@@ -1,4 +1,5 @@
 import React from 'react'
+import store from './store.js'
 import './style/station.css'
 
 class Station extends React.Component {
@@ -10,7 +11,7 @@ class Station extends React.Component {
     stationClick(station, e) {
         e.stopPropagation();
         this.setState((lastState) => { return { show: !lastState.show }; });
-        //TODO redux action select station
+        store.dispatch({ type: 'SELECT_STATION', station: station });
     }
 
     render() {
