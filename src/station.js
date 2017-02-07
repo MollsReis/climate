@@ -9,7 +9,6 @@ class Station extends React.Component {
     }
 
     stationClick(station, e) {
-        e.stopPropagation();
         this.setState((lastState) => { return { show: !lastState.show }; });
         store.dispatch({ type: 'SELECT_STATION', station: station });
     }
