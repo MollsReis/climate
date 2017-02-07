@@ -1,0 +1,23 @@
+div.regions div.region {
+    position: relative;
+    font-size: 1.4em;
+    list-style: none;
+    padding: 0.5em 0;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    overflow: hidden;
+    height: 1em;
+    transition: 0.5s height cubic-bezier(0, 1, 0.5, 1);
+}
+
+div.regions div.region.show {
+    height: auto;
+}
+
+div.regions div.region:last-of-type {
+    border-bottom: none;
+}
+
+div.regions div.region div.stations {
+    margin-top: 0.5em;
+}

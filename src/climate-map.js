@@ -1,7 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import List from './list'
-import './climate-map.css';
+import './style/climate-map.css';
 
 class ClimateMap extends React.Component {
     constructor(props) {
@@ -44,21 +44,11 @@ class ClimateMap extends React.Component {
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution));
     }
 
-    regionClick(region) {
-        console.log(region);
-    }
-
-    stationClick(station) {
-        console.log(station);
-    }
-
     render() {
         return (
             <div>
                 <div id="climate-map" className="climate-map" />
-                <List stations={ this.stations }
-                      stationClick={ this.stationClick.bind(this) }
-                      regionClick={ this.regionClick.bind(this) } />
+                <List stations={ this.stations } />
             </div>
         );
     }

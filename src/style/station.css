@@ -1,0 +1,8 @@
+div.station {
+    padding-left: 1em;
+    margin-bottom: 0.5em;
+}
+
+div.station:last-of-type {
+    margin-bottom: 0;
+}

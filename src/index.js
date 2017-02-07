@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ClimateMap from './climate-map'
-import './index.css';
+import './style/index.css';
 
 ReactDOM.render(
     <ClimateMap />,

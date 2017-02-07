@@ -6,7 +6,7 @@
     padding: 0 1.5em;
     z-index: 2;
     background-color: #eee;
-    transition: 0.25s left;
+    transition: 0.5s left cubic-bezier(0, 1, 0.5, 1);
 }
 
 .list.show {
@@ -31,25 +31,4 @@
 .list div.scroll {
     height: 100%;
     overflow-y: scroll;
-}
-
-.list ul li.region {
-    font-size: 1.4em;
-    list-style: none;
-    padding: 0.5em 0;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-}
-
-.list ul li.region:last-of-type {
-    border-bottom: none;
-}
-
-.list ul li.region ul {
-    margin-top: 0.5em;
-}
-
-.list ul li.region ul li.station {
-    padding-left: 1em;
-    margin-bottom: 0.5em;
 }
