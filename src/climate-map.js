@@ -34,7 +34,10 @@ class ClimateMap extends React.Component {
 
         this.regionBoundaries = L.geoJson(require('./data/states.json'), {
             fill: false,
-            filter: (region) => region.properties.NAME !== 'Puerto Rico'
+            filter: (region) => region.properties.NAME !== 'Puerto Rico',
+            coordsToLatLng: (coords) => {
+                return [coords[1], coords[0] > 170 ? coords[0] - 360: coords[0]];
+            }
         });
     }
 
