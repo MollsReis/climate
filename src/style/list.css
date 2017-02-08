@@ -6,7 +6,7 @@
     padding: 0 1.5em;
     z-index: 2;
     background-color: #eee;
-    transition: left 0.25s;
+    transition: left 0.4s;
 }
 
 .list.show {

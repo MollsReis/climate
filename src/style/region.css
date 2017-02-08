@@ -17,7 +17,7 @@ div.regions div.region div.stations {
     opacity: 0;
     transform: scaleY(0);
     transform-origin: top;
-    transition: transform 0.25s;
+    transition: transform 0.4s;
 }
 
 div.regions div.region.show div.stations {
