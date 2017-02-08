@@ -54,6 +54,7 @@ class ClimateMap extends React.Component {
 
     handleStoreChange() {
         const state = store.getState();
+        let boundsArray = [];
 
         this.regionBoundaries
             .removeFrom(this.map)
@@ -64,8 +65,15 @@ class ClimateMap extends React.Component {
                     return { color: 'rgba(0,0,0,0)' };
                 }
             })
+            .eachLayer((region) => {
+                if (state.region === null || state.region === region.feature.properties.NAME) {
+                    boundsArray.push(region.getBounds());
+                }
+            })
             .addTo(this.map)
             .bringToBack();
+
+        this.map.fitBounds(boundsArray)
     }
 
     render() {
