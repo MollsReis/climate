@@ -55,16 +55,17 @@ class ClimateMap extends React.Component {
     handleStoreChange() {
         const state = store.getState();
 
-        this.regionBoundaries.removeFrom(this.map);
-        this.regionBoundaries.setStyle((region) => {
-            if (state.region === null || state.region === region.properties.NAME) {
-                return { color: '#3388ff' };
-            } else {
-                return { color: 'rgba(0,0,0,0)' };
-            }
-        });
-        this.regionBoundaries.addTo(this.map);
-        this.stations.bringToFront();
+        this.regionBoundaries
+            .removeFrom(this.map)
+            .setStyle((region) => {
+                if (state.region === null || state.region === region.properties.NAME) {
+                    return { color: '#3388ff' };
+                } else {
+                    return { color: 'rgba(0,0,0,0)' };
+                }
+            })
+            .addTo(this.map)
+            .bringToBack();
     }
 
     render() {
