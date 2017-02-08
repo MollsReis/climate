@@ -4,10 +4,18 @@ import List from './list'
 import store from './store.js'
 import './style/climate-map.css';
 
+const DEFAULT_CENTER = [38, -95];
+const DEFAULT_ZOOM = 5;
+const TILE_URL = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+const ATTRIBUTION_TEXT = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, ' +
+    'Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community | Data from NOAA API';
+
 class ClimateMap extends React.Component {
     constructor(props) {
         super(props);
-        store.subscribe(this.handleStoreChange);
+
+        store.subscribe(this.handleStoreChange.bind(this));
+
         this.stations = require('./data/stations.json').reduce((stations, state) => {
             stations.set(state.name, L.layerGroup(state.stations.map((station) => {
                 return L.circleMarker([station.lat, station.lng], {
@@ -23,31 +31,40 @@ class ClimateMap extends React.Component {
             })));
             return stations;
         }, new Map());
-        this.stateBoundaries = L.geoJson(require('./data/states.json'), {
+
+        this.regionBoundaries = L.geoJson(require('./data/states.json'), {
             fill: false,
-            filter: (state) => state.properties.NAME !== 'Puerto Rico'
+            filter: (region) => region.properties.NAME !== 'Puerto Rico'
         });
     }
 
     componentDidMount() {
-        const tileUrl = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        const attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, ' +
-            'Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community | Data from NOAA API';
         this.map = L.map('climate-map', {
             attributionControl: false,
-            center: [38, -95],
+            center: DEFAULT_CENTER,
             layers: [
-                L.tileLayer(tileUrl),
-                this.stateBoundaries,
+                L.tileLayer(TILE_URL),
+                this.regionBoundaries,
                 ...this.stations.values()
             ],
             minZoom: 3,
-            zoom: 5
-        }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(attribution));
+            zoom: DEFAULT_ZOOM
+        }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(ATTRIBUTION_TEXT));
     }
 
     handleStoreChange() {
-        console.log(store.getState()); //TODO pan and zoom map for selection
+        const state = store.getState();
+
+        this.regionBoundaries.removeFrom(this.map);
+        this.regionBoundaries.setStyle((region) => {
+            if (state.region === null || state.region === region.properties.NAME) {
+                return { color: '#3388ff' };
+            } else {
+                return { color: 'rgba(0,0,0,0)' };
+            }
+        });
+        this.regionBoundaries.addTo(this.map);
+        this.stations.bringToFront();
     }
 
     render() {
