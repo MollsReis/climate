@@ -1,6 +1,6 @@
 import React from 'react'
 import Station from './station.js'
-import store from './store.js'
+import { regionStore } from './store.js'
 import './style/region.css'
 
 class Region extends React.Component {
@@ -12,7 +12,7 @@ class Region extends React.Component {
     regionClick(region, e) {
         e.stopPropagation();
         this.setState((lastState) => {
-            store.dispatch({ type: lastState.show ? 'REMOVE_REGION' : 'ADD_REGION', region: region });
+            regionStore.dispatch({ type: lastState.show ? 'REMOVE_REGION' : 'ADD_REGION', region: region });
             return { show: !lastState.show };
         });
     }

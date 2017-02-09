@@ -1,18 +1,25 @@
 import { createStore } from 'redux'
 
-const store = createStore((state = { regions: [], station: null }, action) => {
+export const regionStore = createStore((state = { regions: [] }, action) => {
     switch (action.type) {
         case 'ADD_REGION':
-            return { ...state, regions: [...state.regions, action.region]};
+            return { regions: [...state.regions, action.region] };
         case 'REMOVE_REGION':
-            return { ...state, regions: state.regions.filter((region) => region !== action.region )};
+            return { regions: state.regions.filter((region) => region !== action.region) };
         case 'CLEAR_REGIONS':
-            return { ...state, regions: []};
-        case 'SELECT_STATION':
-            return { ...state, station: action.station };
+            return { regions: [] };
         default:
             return state;
     }
 });
 
-export default store;
+export const stationStore = createStore((state = { station: null }, action) => {
+    switch(action.type) {
+        case 'SELECT_STATION':
+            return { station: action.station };
+        case 'CLEAR_STATION':
+            return { station: null };
+        default:
+            return state;
+    }
+});

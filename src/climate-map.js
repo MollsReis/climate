@@ -1,7 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import List from './list'
-import store from './store.js'
+import { regionStore, stationStore } from './store.js'
 import './style/climate-map.css';
 
 const DEFAULT_CENTER = [38, -95];
@@ -14,31 +14,37 @@ class ClimateMap extends React.Component {
     constructor(props) {
         super(props);
 
-        store.subscribe(this.handleStoreChange.bind(this));
+        regionStore.subscribe(this.handleRegionChange.bind(this));
+        stationStore.subscribe(this.handleStationChange.bind(this));
 
         this.stations = require('./data/stations.json').reduce((stations, state) => {
             stations.set(state.name, L.layerGroup(state.stations.map((station) => {
+                let popupContents = `<b>${station.name}</b><br />` +
+                    `Lat, Lng: ${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}`;
                 return L.circleMarker([station.lat, station.lng], {
                     name: station.name,
                     color: '#333',
+                    coordsToLatLng: ClimateMap.coordsToLatLng,
                     fill: true,
                     fillColor: '#ff6600',
                     fillOpacity: 1,
                     opacity: 1,
                     radius: 6,
                     weight: 2
-                }).bindPopup(station.name);
+                }).bindPopup(popupContents);
             })));
             return stations;
         }, new Map());
 
         this.regionBoundaries = L.geoJson(require('./data/states.json'), {
+            coordsToLatLng: ClimateMap.coordsToLatLng,
             fill: false,
-            filter: (region) => region.properties.NAME !== 'Puerto Rico',
-            coordsToLatLng: (coords) => {
-                return [coords[1], coords[0] > 170 ? coords[0] - 360: coords[0]];
-            }
+            filter: (region) => region.properties.NAME !== 'Puerto Rico'
         });
+    }
+
+    static coordsToLatLng(coords) {
+        return [coords[1], coords[0] > 170 ? coords[0] - 360: coords[0]];
     }
 
     componentDidMount() {
@@ -55,8 +61,8 @@ class ClimateMap extends React.Component {
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(ATTRIBUTION_TEXT));
     }
 
-    handleStoreChange() {
-        const state = store.getState();
+    handleRegionChange() {
+        const state = regionStore.getState();
         let boundsArray = [];
 
         this.regionBoundaries
@@ -90,6 +96,11 @@ class ClimateMap extends React.Component {
         } else {
             this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
         }
+    }
+
+    handleStationChange() {
+        const state = stationStore.getState();
+        console.log(`${state.station} station selected`);
     }
 
     render() {
