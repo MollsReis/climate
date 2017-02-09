@@ -76,12 +76,20 @@ class ClimateMap extends React.Component {
             .addTo(this.map)
             .bringToBack();
 
+        for (let entry of this.stations.entries()) {
+            let region = entry[0], stations = entry[1];
+            if ((!state.regions.length || state.regions.indexOf(region) !== -1) && !this.map.hasLayer(stations)) {
+                this.map.addLayer(stations);
+            } else if (state.regions.indexOf(region) === -1 && this.map.hasLayer(stations)) {
+                this.map.removeLayer(stations);
+            }
+        }
+
         if (boundsArray.length) {
             this.map.fitBounds(boundsArray);
         } else {
             this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
         }
-
     }
 
     render() {
