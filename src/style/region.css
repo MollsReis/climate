@@ -20,8 +20,13 @@ div.regions div.region div.stations {
     transition: transform 0.4s;
 }
 
+div.regions div.region.show {
+    font-weight: bold;
+}
+
 div.regions div.region.show div.stations {
     height: auto;
     opacity: 1;
     transform: scaleY(1);
+    font-weight: normal;
 }

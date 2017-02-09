@@ -11,8 +11,10 @@ class Region extends React.Component {
 
     regionClick(region, e) {
         e.stopPropagation();
-        this.setState((lastState) => { return { show: !lastState.show }; });
-        store.dispatch({ type: 'SELECT_REGION', region: region });
+        this.setState((lastState) => {
+            store.dispatch({ type: lastState.show ? 'REMOVE_REGION' : 'ADD_REGION', region: region });
+            return { show: !lastState.show };
+        });
     }
 
     renderStation(station, i) {

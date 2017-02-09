@@ -62,21 +62,26 @@ class ClimateMap extends React.Component {
         this.regionBoundaries
             .removeFrom(this.map)
             .setStyle((region) => {
-                if (state.region === null || state.region === region.properties.NAME) {
+                if (!state.regions.length || state.regions.indexOf(region.properties.NAME) !== -1) {
                     return { color: '#3388ff' };
                 } else {
                     return { color: 'rgba(0,0,0,0)' };
                 }
             })
-            .eachLayer((region) => {
-                if (state.region === null || state.region === region.feature.properties.NAME) {
-                    boundsArray.push(region.getBounds());
+            .eachLayer((layer) => {
+                if (state.regions.length && state.regions.indexOf(layer.feature.properties.NAME) !== -1) {
+                    boundsArray.push(layer.getBounds());
                 }
             })
             .addTo(this.map)
             .bringToBack();
 
-        this.map.fitBounds(boundsArray)
+        if (boundsArray.length) {
+            this.map.fitBounds(boundsArray);
+        } else {
+            this.map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+        }
+
     }
 
     render() {
