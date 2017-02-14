@@ -4,3 +4,25 @@
     height: 100%;
     z-index: 1;
 }
+
+a.fork-me {
+    display: block;
+    position: absolute;
+    width: 200px;
+    top: 15px;
+    z-index: 2;
+    left: -60px;
+    background-color: #333;
+    color: #eee;
+    text-decoration: none;
+    font-size: 1.75em;
+    padding: 0.5em 0;
+    text-align: center;
+    border: 1px solid #eee;
+    transform: rotate(-45deg);
+}
+
+a.fork-me:hover, a.fork-me:visited {
+    text-decoration: none;
+    color: white;
+}

@@ -57,7 +57,8 @@ class ClimateMap extends React.Component {
                 ...this.stations.values()
             ],
             minZoom: 3,
-            zoom: DEFAULT_ZOOM
+            zoom: DEFAULT_ZOOM,
+            zoomControl: false
         }).addControl(L.control.attribution({ position: 'bottomleft' }).addAttribution(ATTRIBUTION_TEXT));
     }
 
@@ -108,6 +109,9 @@ class ClimateMap extends React.Component {
             <div>
                 <div id="climate-map" className="climate-map" />
                 <List stations={ this.stations } />
+                <a className="fork-me" href="https://github.com/EvilScott/climate" target="_blank">
+                    GitHub
+                </a>
             </div>
         );
     }
