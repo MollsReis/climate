@@ -22,12 +22,14 @@ class Region extends React.Component {
     }
 
     render() {
+        const sortedStations = this.props.stations.getLayers()
+            .sort((a, b) => a.options.name.localeCompare(b.options.name));
         return (
             <div className={ 'region' + (this.state.show ? ' show' : '') }
                  onClick={ this.regionClick.bind(this, this.props.region) }>
                 { this.props.region } ({ this.props.stations.getLayers().length } stations)
                 <div className="stations">
-                    { this.props.stations.getLayers().map(this.renderStation.bind(this)) }
+                    { sortedStations.map(this.renderStation.bind(this)) }
                 </div>
             </div>
         );
